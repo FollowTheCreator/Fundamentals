@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITechart.Fundamentals", "ITechart.Fundamentals\ITechart.Fundamentals.csproj", "{1120A935-DB0A-4689-A64A-E8511435A632}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1120A935-DB0A-4689-A64A-E8511435A632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1120A935-DB0A-4689-A64A-E8511435A632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1120A935-DB0A-4689-A64A-E8511435A632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1120A935-DB0A-4689-A64A-E8511435A632}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C794C18F-2B5D-4B47-8373-58D1B9D211B1}
+	EndGlobalSection
+EndGlobal
