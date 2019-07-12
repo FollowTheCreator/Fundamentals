@@ -1,0 +1,5 @@
+packages/*
+*.vs
+*.user
+[Bb]in/
+[Oo]bj/
