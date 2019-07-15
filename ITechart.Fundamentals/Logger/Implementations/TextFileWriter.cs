@@ -1,4 +1,5 @@
 ﻿using ITechart.Fundamentals.Logger.Interfaces;
+using ITechart.Fundamentals.Logger.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,12 +11,24 @@ namespace ITechart.Fundamentals.Logger.Implementations
 {
     class TextFileWriter : ILogWriter
     {
-        public void WriteLog(string type, string message)
+        public IEnumerable<LogType> LogTypes { get; private set; }
+
+        public StreamWriter Writer { get; set; }
+
+        public TextFileWriter(IEnumerable<LogType> logTypes, StreamWriter writer)
         {
-            using (StreamWriter writer = new StreamWriter(@"..\..\Logger\Data\log.txt", true))
+            LogTypes = logTypes;
+            Writer = writer;
+        }
+
+        public void WriteLog(LogRecord logRecord)
+        {
+            if (!LogTypes.Contains(logRecord.Type))
             {
-                writer.WriteLine($"{type}: \"{message}\" {DateTime.Now}");
+                return;
             }
+
+            Writer.WriteLine($"{logRecord.Type}: \"{logRecord.Message}\" {DateTime.Now}");
         }
     }
 }

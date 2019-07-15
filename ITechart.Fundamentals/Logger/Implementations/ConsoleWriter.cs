@@ -1,4 +1,5 @@
 ﻿using ITechart.Fundamentals.Logger.Interfaces;
+using ITechart.Fundamentals.Logger.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,21 @@ namespace ITechart.Fundamentals.Logger.Implementations
 {
     class ConsoleWriter : ILogWriter
     {
-        public void WriteLog(string type, string message)
+        public IEnumerable<LogType> LogTypes { get; private set; }
+
+        public ConsoleWriter(IEnumerable<LogType> logTypes)
         {
-            Console.WriteLine($"{type}: \"{message}\" {DateTime.Now}");
+            LogTypes = logTypes;
+        }
+
+        public void WriteLog(LogRecord logRecord)
+        {
+            if (!LogTypes.Contains(logRecord.Type))
+            {
+                return;
+            }
+
+            Console.WriteLine($"{logRecord.Type}: \"{logRecord.Message}\" {DateTime.Now}");
         }
     }
 }

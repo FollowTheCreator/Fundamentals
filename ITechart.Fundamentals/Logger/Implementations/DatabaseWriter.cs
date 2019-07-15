@@ -11,20 +11,32 @@ namespace ITechart.Fundamentals.Logger.Implementations
 {
     class DatabaseWriter : ILogWriter
     {
-        public void WriteLog(string type, string message)
+        public IEnumerable<LogType> LogTypes { get; private set; }
+
+        public LogContext Context { get; set; }
+
+        public DatabaseWriter(IEnumerable<LogType> logTypes, LogContext context)
         {
-            using (var context = new LogContext())
+            LogTypes = logTypes;
+            Context = context;
+        }
+
+        public void WriteLog(LogRecord logRecord)
+        {
+            if (!LogTypes.Contains(logRecord.Type))
             {
-                context.Logs.Add(
-                    new Log()
-                    {
-                        Type = type,
-                        Message = message,
-                        Date = DateTime.Now
-                    }
-                );
-                context.SaveChanges();
+                return;
             }
+
+            Context.Logs.Add(
+                new Log()
+                {
+                    Type = logRecord.Type.ToString(),
+                    Message = logRecord.Message,
+                    Date = DateTime.Now
+                }
+            );
+            Context.SaveChanges();
         }
     }
 }

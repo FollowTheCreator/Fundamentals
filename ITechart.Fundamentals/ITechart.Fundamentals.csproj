@@ -60,7 +60,9 @@
     <Compile Include="Logger\Interfaces\ILogger.cs" />
     <Compile Include="Logger\Interfaces\ILogWriter.cs" />
     <Compile Include="Logger\LoggerUsage.cs" />
+    <Compile Include="Logger\LogType.cs" />
     <Compile Include="Logger\Models\Log.cs" />
+    <Compile Include="Logger\Models\LogRecord.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -71,7 +73,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Logger\Database\Database initialization.sql" />
-    <Content Include="Logger\Data\log.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

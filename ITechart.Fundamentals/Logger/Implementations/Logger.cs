@@ -1,4 +1,5 @@
 ﻿using ITechart.Fundamentals.Logger.Interfaces;
+using ITechart.Fundamentals.Logger.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,41 +10,36 @@ namespace ITechart.Fundamentals.Logger.Implementations
 {
     class Logger : ILogger
     {
-        public ILogWriter Destination { private get; set; }
+        public ILogWriter Destination { get; set; }
 
-        public Logger()
+        public Logger(IEnumerable<LogType> logTypes)
         {
-            Destination = new ConsoleWriter();
+            Destination = new ConsoleWriter(logTypes);
         }
 
-        public Logger(ILogWriter logWriter)
+        public Logger(ILogWriter destination)
         {
-            Destination = logWriter;
-        }
-
-        private void WriteLog(string type, string message)
-        {
-            Destination.WriteLog(type, message);
+            Destination = destination;
         }
 
         public void Error(string message)
         {
-            WriteLog("Error", message);
+            Destination?.WriteLog(new LogRecord() { Type = LogType.Error, Message = message });
         }
 
         public void Error(Exception ex)
         {
-            WriteLog("Error", ex.Message);
+            Destination?.WriteLog(new LogRecord() { Type = LogType.Error, Message = ex.Message });
         }
 
         public void Warning(string message)
         {
-            WriteLog("Warning", message);
+            Destination?.WriteLog(new LogRecord() { Type = LogType.Warning, Message = message });
         }
 
         public void Info(string message)
         {
-            WriteLog("Info", message);
+            Destination?.WriteLog(new LogRecord() { Type = LogType.Info, Message = message });
         }
     }
 }

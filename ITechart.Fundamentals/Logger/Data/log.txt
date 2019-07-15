@@ -1,8 +1,0 @@
-Error: "Error message" 7/12/2019 3:32:01 PM
-Error: "Exception error message" 7/12/2019 3:32:01 PM
-Warning: "Warning message" 7/12/2019 3:32:01 PM
-Info: "Info message" 7/12/2019 3:32:01 PM
-Error: "Error message" 7/12/2019 3:33:49 PM
-Error: "Exception error message" 7/12/2019 3:33:49 PM
-Warning: "Warning message" 7/12/2019 3:33:49 PM
-Info: "Info message" 7/12/2019 3:33:49 PM

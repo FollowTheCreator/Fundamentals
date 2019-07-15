@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITechart.Fundamentals.Logger.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace ITechart.Fundamentals.Logger.Interfaces
 {
     interface ILogWriter
     {
-        void WriteLog(string type, string message);
+        IEnumerable<LogType> LogTypes { get; }
+
+        void WriteLog(LogRecord logRecord);
     }
 }
