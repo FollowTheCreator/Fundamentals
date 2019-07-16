@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ITechart.Fundamentals.Logger;
+using ITechart.Fundamentals.LoggingProxy;
 
 namespace ITechart.Fundamentals
 {
@@ -11,9 +12,19 @@ namespace ITechart.Fundamentals
     {
         static void Main(string[] args)
         {
-            LoggerUsage.UseLogger();
+            RunSample("Logger", LoggerUsage.UseLogger);
+
+
+            RunSample("Logging proxy", LoggingProxyUsage.UseLoggingProxy);
 
             Console.ReadKey();
+        }
+
+        private static void RunSample(string name, Action action)
+        {
+            Console.WriteLine("--{0}", name);
+            action();
+            Console.WriteLine();
         }
     }
 }
