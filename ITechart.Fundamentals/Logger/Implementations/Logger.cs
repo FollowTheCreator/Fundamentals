@@ -8,38 +8,48 @@ using System.Threading.Tasks;
 
 namespace ITechart.Fundamentals.Logger.Implementations
 {
-    class Logger : ILogger
+    class Logger : Disposable, ILogger
     {
-        public ILogWriter Destination { get; set; }
+        private ILogWriter _destination;
 
-        public Logger(IEnumerable<LogType> logTypes)
+        public Logger(params LogType[] logTypes)
         {
-            Destination = new ConsoleWriter(logTypes);
+            if (logTypes == null)
+            {
+                throw new ArgumentNullException(nameof(logTypes));
+            }
+
+            _destination = new ConsoleWriter(logTypes);
         }
 
         public Logger(ILogWriter destination)
         {
-            Destination = destination;
+            _destination = destination ?? throw new ArgumentNullException(nameof(destination));
         }
 
         public void Error(string message)
         {
-            Destination?.WriteLog(new LogRecord() { Type = LogType.Error, Message = message });
+            _destination.WriteLog(new LogRecord() { Type = LogType.Error, Message = message });
         }
 
         public void Error(Exception ex)
         {
-            Destination?.WriteLog(new LogRecord() { Type = LogType.Error, Message = ex.Message });
+            _destination.WriteLog(new LogRecord() { Type = LogType.Error, Message = ex.Message });
         }
 
         public void Warning(string message)
         {
-            Destination?.WriteLog(new LogRecord() { Type = LogType.Warning, Message = message });
+            _destination.WriteLog(new LogRecord() { Type = LogType.Warning, Message = message });
         }
 
         public void Info(string message)
         {
-            Destination?.WriteLog(new LogRecord() { Type = LogType.Info, Message = message });
+            _destination.WriteLog(new LogRecord() { Type = LogType.Info, Message = message });
+        }
+
+        protected override void FreeResources()
+        {
+            (_destination as IDisposableLogger)?.Dispose();
         }
     }
 }

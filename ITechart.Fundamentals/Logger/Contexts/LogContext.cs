@@ -10,7 +10,8 @@ namespace ITechart.Fundamentals.Logger.Contexts
 {
     class LogContext : DbContext
     {
-        public LogContext() : base("Log") { }
+        public LogContext(string dbName)
+            : base(dbName) { }
 
         public DbSet<Log> Logs { get; set; }
     }

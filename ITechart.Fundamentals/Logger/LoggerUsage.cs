@@ -16,43 +16,38 @@ namespace ITechart.Fundamentals.Logger
     {
         public static void UseLogger()
         {
-            ILogger logger = new Implementations.Logger(
-                new ConsoleWriter(
-                    new List<LogType>() { LogType.Error, LogType.Info }
-                )
-            );
-            CallMethods(logger);
-
-            string path = @"Logs\log.txt";
-            FileInfo fi = new FileInfo(path);
-            if (!fi.Directory.Exists)
+            using (var logger = new Implementations.Logger(
+                new ConsoleWriter(LogType.Error,
+                                  LogType.Info)
+            ))
             {
-                Directory.CreateDirectory(fi.DirectoryName);
-            }
-            using (StreamWriter writer = new StreamWriter(path, true))
-            {
-                logger = new Implementations.Logger(
-                    new TextFileWriter(
-                        new List<LogType>() { LogType.Warning, LogType.Info },
-                        writer
-                    )
-                );
                 CallMethods(logger);
             }
 
-            using (LogContext context = new LogContext())
+            const string Path = @"Logs\log.txt";
+            using (var logger = new Implementations.Logger(
+                new TextFileWriter(Path,
+                                   LogType.Warning,
+                                   LogType.Info)
+            ))
             {
-                logger = new Implementations.Logger(
-                    new DatabaseWriter(
-                        new List<LogType>() { LogType.Error, LogType.Info },
-                        context
-                    )
-                );
                 CallMethods(logger);
             }
 
-            logger = new Implementations.Logger(new List<LogType>() { LogType.Error, LogType.Warning });
-            CallMethods(logger);
+            const string ConnectionName = "Log";
+            using (var logger = new Implementations.Logger(
+                new DatabaseWriter(ConnectionName,
+                                   LogType.Error,
+                                   LogType.Info)
+            ))
+            {
+                CallMethods(logger);
+            }
+
+            using (var logger = new Implementations.Logger( LogType.Error, LogType.Warning ))
+            {
+                CallMethods(logger);
+            }
         }
 
         private static void CallMethods(ILogger logger)

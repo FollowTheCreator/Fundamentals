@@ -9,34 +9,33 @@ using ITechart.Fundamentals.Logger.Models;
 
 namespace ITechart.Fundamentals.Logger.Implementations
 {
-    class DatabaseWriter : ILogWriter
+    class DatabaseWriter : BaseLogger, IDisposableLogger
     {
-        public IEnumerable<LogType> LogTypes { get; private set; }
+        private readonly LogContext _context;
 
-        public LogContext Context { get; set; }
-
-        public DatabaseWriter(IEnumerable<LogType> logTypes, LogContext context)
+        public DatabaseWriter(string databaseName, params LogType[] types)
+            :base(types)
         {
-            LogTypes = logTypes;
-            Context = context;
+            databaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
+            _context = new LogContext(databaseName);
         }
 
-        public void WriteLog(LogRecord logRecord)
+        protected override void WriteData(LogRecord logRecord)
         {
-            if (!LogTypes.Contains(logRecord.Type))
-            {
-                return;
-            }
-
-            Context.Logs.Add(
+            _context.Logs.Add(
                 new Log()
                 {
                     Type = logRecord.Type.ToString(),
                     Message = logRecord.Message,
-                    Date = DateTime.Now
+                    Date = DateTime.UtcNow
                 }
             );
-            Context.SaveChanges();
+            _context.SaveChanges();
+        }
+
+        protected override void FreeResources()
+        {
+            _context.Dispose();
         }
     }
 }

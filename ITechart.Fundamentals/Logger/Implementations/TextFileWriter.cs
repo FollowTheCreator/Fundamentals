@@ -9,26 +9,40 @@ using System.Threading.Tasks;
 
 namespace ITechart.Fundamentals.Logger.Implementations
 {
-    class TextFileWriter : ILogWriter
+    class TextFileWriter : BaseLogger, IDisposableLogger
     {
-        public IEnumerable<LogType> LogTypes { get; private set; }
+        private readonly StreamWriter _writer;
 
-        public StreamWriter Writer { get; set; }
-
-        public TextFileWriter(IEnumerable<LogType> logTypes, StreamWriter writer)
+        public TextFileWriter(string path, params LogType[] types)
+            : base(types)
         {
-            LogTypes = logTypes;
-            Writer = writer;
+            path = path ?? throw new ArgumentNullException(nameof(path));
+            CreateDirectoryIfNOtExists(path);
+            _writer = new StreamWriter(path, append: true);
         }
 
-        public void WriteLog(LogRecord logRecord)
+        private static void CreateDirectoryIfNOtExists(string path)
         {
-            if (!LogTypes.Contains(logRecord.Type))
+            if (path == null)
             {
-                return;
+                throw new ArgumentNullException(nameof(path));
             }
 
-            Writer.WriteLine($"{logRecord.Type}: \"{logRecord.Message}\" {DateTime.Now}");
+            var fi = new FileInfo(path);
+            if (!fi.Directory.Exists)
+            {
+                Directory.CreateDirectory(fi.DirectoryName);
+            }
+        }
+
+        protected override void WriteData(LogRecord logRecord)
+        {
+            _writer.WriteLine($"{logRecord.Type}: \"{logRecord.Message}\" {DateTime.UtcNow}");
+        }
+
+        protected override void FreeResources()
+        {
+            _writer.Dispose();
         }
     }
 }

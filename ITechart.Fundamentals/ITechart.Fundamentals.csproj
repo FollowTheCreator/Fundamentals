@@ -53,10 +53,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logger\Contexts\LogContext.cs" />
+    <Compile Include="Logger\Implementations\BaseLogger.cs" />
     <Compile Include="Logger\Implementations\ConsoleWriter.cs" />
     <Compile Include="Logger\Implementations\DatabaseWriter.cs" />
+    <Compile Include="Logger\Implementations\Disposable.cs" />
     <Compile Include="Logger\Implementations\Logger.cs" />
     <Compile Include="Logger\Implementations\TextFileWriter.cs" />
+    <Compile Include="Logger\Interfaces\IDisposableLogger.cs" />
     <Compile Include="Logger\Interfaces\ILogger.cs" />
     <Compile Include="Logger\Interfaces\ILogWriter.cs" />
     <Compile Include="Logger\LoggerUsage.cs" />

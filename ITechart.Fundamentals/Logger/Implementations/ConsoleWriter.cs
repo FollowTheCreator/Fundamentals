@@ -2,6 +2,8 @@
 using ITechart.Fundamentals.Logger.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +14,9 @@ namespace ITechart.Fundamentals.Logger.Implementations
     {
         public IEnumerable<LogType> LogTypes { get; private set; }
 
-        public ConsoleWriter(IEnumerable<LogType> logTypes)
+        public ConsoleWriter(params LogType[] logTypes)
         {
-            LogTypes = logTypes;
+            LogTypes = logTypes ?? throw new ArgumentNullException(nameof(logTypes));
         }
 
         public void WriteLog(LogRecord logRecord)
@@ -24,7 +26,7 @@ namespace ITechart.Fundamentals.Logger.Implementations
                 return;
             }
 
-            Console.WriteLine($"{logRecord.Type}: \"{logRecord.Message}\" {DateTime.Now}");
+            Console.WriteLine($"{logRecord.Type}: \"{logRecord.Message}\" {DateTime.UtcNow}");
         }
     }
 }
