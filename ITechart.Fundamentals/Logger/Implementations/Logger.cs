@@ -1,16 +1,13 @@
 ﻿using ITechart.Fundamentals.Logger.Interfaces;
 using ITechart.Fundamentals.Logger.Models;
+using ITechart.Fundamentals.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITechart.Fundamentals.Logger.Implementations
 {
     class Logger : Disposable, ILogger
     {
-        private ILogWriter _destination;
+        private readonly ILogWriter _destination;
 
         public Logger(params LogType[] logTypes)
         {

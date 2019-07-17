@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ITechart.Fundamentals.Logger;
 using ITechart.Fundamentals.Logger.Interfaces;
 using ITechart.Fundamentals.Logger.Implementations;
-using ITechart.Fundamentals.Logger.Models;
-using ITechart.Fundamentals.Logger.Contexts;
-using System.IO;
 
 namespace ITechart.Fundamentals.Logger
 {
