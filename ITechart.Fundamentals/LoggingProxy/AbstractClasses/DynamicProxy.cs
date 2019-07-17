@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITechart.Fundamentals.LoggingProxy.AbstractClasses
 {
-    abstract class DynamicProxy<T> : DynamicObject
+    abstract class DynamicProxy<T> : DynamicObject, IDisposable
     {
+        private bool _disposed = false;
+
         public T Instance { get; private set; }
 
         protected DynamicProxy() { }
@@ -25,13 +23,37 @@ namespace ITechart.Fundamentals.LoggingProxy.AbstractClasses
 
         abstract public T CreateInstance(T obj);
 
-        abstract protected void PreAction(InvokeMemberBinder binder);
+        abstract protected void BeforeTryInvokeMember(InvokeMemberBinder binder);
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            PreAction(binder);
+            BeforeTryInvokeMember(binder);
             result = Instance.GetType().GetMethod(binder.Name).Invoke(Instance, args);
             return true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                FreeResources();
+            }
+
+            _disposed = true;
+        }
+
+        protected virtual void FreeResources()
+        {
+
         }
     }
 }

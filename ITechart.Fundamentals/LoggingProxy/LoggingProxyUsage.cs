@@ -1,10 +1,6 @@
-﻿using ITechart.Fundamentals.LoggingProxy.Implementations;
+﻿using ITechart.Fundamentals.Logger;
+using ITechart.Fundamentals.LoggingProxy.Implementations;
 using ITechart.Fundamentals.LoggingProxy.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITechart.Fundamentals.LoggingProxy
 {
@@ -12,8 +8,12 @@ namespace ITechart.Fundamentals.LoggingProxy
     {
         public static void UseLoggingProxy()
         {
-            var writer = new LoggingProxy<IWriter>().CreateInstance(new Writer());
-            writer.Write("Method Execution...");
+            var logger = new Logger.Implementations.Logger(LogType.Info);
+            using (var loggingProxy = new LoggingProxy<IWriter>(logger))
+            {
+                var writer = loggingProxy.CreateInstance(new ConsoleWriter());
+                writer.Write("Method Execution...");
+            }
         }
     }
 }
