@@ -1,5 +1,6 @@
 ﻿using ITechart.Fundamentals.Logger.Interfaces;
 using ITechart.Fundamentals.Logger.Models;
+using ITechart.Fundamentals.Utils;
 using System;
 using System.IO;
 
@@ -13,22 +14,8 @@ namespace ITechart.Fundamentals.Logger.Implementations
             : base(types)
         {
             path = path ?? throw new ArgumentNullException(nameof(path));
-            CreateDirectoryIfNOtExists(path);
+            CheckDirectory.CreateDirectoryIfNOtExists(path);
             _writer = new StreamWriter(path, append: true);
-        }
-
-        private static void CreateDirectoryIfNOtExists(string path)
-        {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            var fi = new FileInfo(path);
-            if (!fi.Directory.Exists)
-            {
-                Directory.CreateDirectory(fi.DirectoryName);
-            }
         }
 
         protected override void WriteData(LogRecord logRecord)

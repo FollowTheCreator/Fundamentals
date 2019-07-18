@@ -1,4 +1,5 @@
-﻿using ITechart.Fundamentals.CsvEnumerable.Implementations;
+﻿using ITechart.Fundamentals.CsvEnumerable.Data;
+using ITechart.Fundamentals.CsvEnumerable.Implementations;
 using ITechart.Fundamentals.CsvEnumerable.Models;
 using System;
 using System.IO;
@@ -10,7 +11,9 @@ namespace ITechart.Fundamentals.CsvEnumerable
     {
         public static void UseCsvEnumerable()
         {
-            var data = new CsvEnumerableWithHelper<Record>(new StreamReader(@"file.csv"))
+            const string path = @"file.csv";
+            CreateCsv.Create(path);
+            var data = new CsvEnumerableWithHelper<Record>(new StreamReader(path))
                 .Select(row => row.ToString());
 
             Console.WriteLine(string.Join("\n", data));
