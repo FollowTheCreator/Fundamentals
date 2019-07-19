@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ITechart.Fundamentals.CsvEnumerable;
+using ITechart.Fundamentals.CsvToDatabase;
 using ITechart.Fundamentals.Logger;
 using ITechart.Fundamentals.LoggingProxy;
 
@@ -13,11 +14,13 @@ namespace ITechart.Fundamentals
     {
         static void Main(string[] args)
         {
-            RunSample("Logger", LoggerUsage.UseLogger);
+            //RunSample("Logger", LoggerUsage.UseLogger);
 
-            RunSample("Logging proxy", LoggingProxyUsage.UseLoggingProxy);
+            //RunSample("Logging proxy", LoggingProxyUsage.UseLoggingProxy);
 
-            RunSample("Csv Enumerable", CsvEnumerableUsage.UseCsvEnumerable);
+            //RunSample("Csv Enumerable", CsvEnumerableUsage.UseCsvEnumerable);
+
+            RunSample("Csv to database", CsvToDatabaseUsage.UseCsvToDatabase);
 
             Console.ReadKey();
         }
