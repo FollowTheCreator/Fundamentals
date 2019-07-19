@@ -30,11 +30,6 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
         {
             get
             {
-                if (_index == -1 || _index >= _records.Length)
-                { 
-                    throw new IndexOutOfRangeException();
-                }
-
                 return _records[_index];
             }
         }

@@ -31,18 +31,10 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
             {
                 if (_currentRow == null)
                 {
-                    throw new NullReferenceException(nameof(_currentRow));
+                   return default;
                 }
 
-                for(int i = 0; i < _properties.Length; i++)
-                {
-                    _properties[i].SetValue(
-                        _currentRecord,
-                        Convert.ChangeType(_currentRow[i], _properties[i].PropertyType)
-                    );
-                }
-
-                return _currentRecord;
+                return GetCurrentRecord();
             }
         }
 
@@ -72,6 +64,19 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
         protected override void FreeResources()
         {
             _reader.Dispose();
+        }
+
+        private T GetCurrentRecord()
+        {
+            for (int i = 0; i < _properties.Length; i++)
+            {
+                _properties[i].SetValue(
+                    _currentRecord,
+                    Convert.ChangeType(_currentRow[i], _properties[i].PropertyType)
+                );
+            }
+
+            return _currentRecord;
         }
     }
 }
