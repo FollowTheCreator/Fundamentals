@@ -34,8 +34,6 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
         {
             private static readonly PropertyInfo[] _properties;
 
-            private static readonly T _currentRecord;
-
             private readonly StreamReader _reader;
 
             private readonly char _delimiter;
@@ -55,7 +53,6 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
             static CsvEnumerator()
             {
                 _properties = typeof(T).GetProperties();
-                _currentRecord = new T();
             }
 
             public T Current
@@ -95,6 +92,8 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
 
             private T GetCurrentRecord()
             {
+                T _currentRecord = new T();
+
                 string[] currentRow = ConvertFromCsv(_currentLine).ToArray();
 
                 try
