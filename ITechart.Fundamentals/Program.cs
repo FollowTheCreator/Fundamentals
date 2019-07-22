@@ -14,13 +14,13 @@ namespace ITechart.Fundamentals
     {
         static void Main(string[] args)
         {
-            //RunSample("Logger", LoggerUsage.UseLogger);
+            RunSample("Logger", LoggerUsage.UseLogger);
 
-            //RunSample("Logging proxy", LoggingProxyUsage.UseLoggingProxy);
+            RunSample("Logging proxy", LoggingProxyUsage.UseLoggingProxy);
 
-            //RunSample("Csv Enumerable", CsvEnumerableUsage.UseCsvEnumerable);
+            RunSample("Csv Enumerable", CsvEnumerableUsage.UseCsvEnumerable);
 
-            RunSample("Csv to database", CsvToDatabaseUsage.UseCsvToDatabase);
+            RunSampleAsync("Csv to database", CsvToDatabaseUsage.UseCsvToDatabaseAsync).Wait();
 
             Console.ReadKey();
         }
@@ -29,6 +29,13 @@ namespace ITechart.Fundamentals
         {
             Console.WriteLine("--{0}", name);
             action();
+            Console.WriteLine();
+        }
+
+        private static async Task RunSampleAsync(string name, Func<Task> func)
+        {
+            Console.WriteLine("--{0}", name);
+            await func();
             Console.WriteLine();
         }
     }
