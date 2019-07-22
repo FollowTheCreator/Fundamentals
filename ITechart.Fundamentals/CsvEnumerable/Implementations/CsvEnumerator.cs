@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections;
 using System.Reflection;
 using ITechart.Fundamentals.Utils;
+using System.Linq;
 
 namespace ITechart.Fundamentals.CsvEnumerable.Implementations
 {
@@ -13,16 +14,16 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
 
         private string[] _currentRow;
 
-        private readonly T _currentRecord;
-
         private readonly PropertyInfo[] _properties;
+
+        private bool _isFirst;
 
         public CsvEnumerator(StreamReader reader)
         {
             _reader = reader ?? throw new ArgumentNullException(nameof(reader));
             _currentRow = default;
-            _currentRecord = new T();
             _properties = typeof(T).GetProperties();
+            _isFirst = true;
         }
 
         public T Current
@@ -31,18 +32,10 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
             {
                 if (_currentRow == null)
                 {
-                    throw new NullReferenceException(nameof(_currentRow));
+                    return default;
                 }
 
-                for(int i = 0; i < _properties.Length; i++)
-                {
-                    _properties[i].SetValue(
-                        _currentRecord,
-                        Convert.ChangeType(_currentRow[i], _properties[i].PropertyType)
-                    );
-                }
-
-                return _currentRecord;
+                return GetCurrentRecord();
             }
         }
 
@@ -53,7 +46,7 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
 
         public bool MoveNext()
         {
-            _currentRow = _reader.ReadLine()?.Split(',');
+            _currentRow = ConvertFromCsv(_reader.ReadLine()).ToArray();
             if (_currentRow == null)
             {
                 return false;
@@ -64,6 +57,7 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
 
         public void Reset()
         {
+            _isFirst = true;
             _reader.DiscardBufferedData();
             _reader.BaseStream.Seek(0, SeekOrigin.Begin);
             _currentRow = null;
@@ -72,6 +66,53 @@ namespace ITechart.Fundamentals.CsvEnumerable.Implementations
         protected override void FreeResources()
         {
             _reader.Dispose();
+        }
+
+        private T GetCurrentRecord()
+        {
+            T _currentRecord = new T();
+
+            try
+            {
+                for (int i = 0; i < _properties.Length; i++)
+                {
+                    _properties[i].SetValue(
+                        _currentRecord,
+                        Convert.ChangeType(_currentRow[i], _properties[i].PropertyType)
+                    );
+                }
+                _isFirst = false;
+            }
+            catch(FormatException)
+            {
+                if (_isFirst)
+                {
+                    MoveNext();
+                    return GetCurrentRecord();
+                }
+            }
+
+            return _currentRecord;
+        }
+
+        private static IEnumerable<string> ConvertFromCsv(string line)
+        {
+            if (string.IsNullOrEmpty(line))
+            {
+                return null;
+            }
+            const char dQuotes = '"';
+            
+            var answer = line.Split(',').Select(col => 
+            {
+                if (col.First() == dQuotes && col.Last() == dQuotes)
+                {
+                    col = col.Substring(1, col.Length - 2);
+                }
+                return col.Replace("\"\"", "\"");
+            });
+
+            return answer;
         }
     }
 }

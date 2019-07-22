@@ -85,9 +85,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Interfaces\IDbEntity.cs" />
+    <Compile Include="Common\Models\Record.cs" />
     <Compile Include="CsvEnumerable\Data\CreateCsv.cs" />
+    <Compile Include="CsvToDatabase\Contexts\MongoDbContext.cs" />
     <Compile Include="CsvToDatabase\CsvToDatabaseUsage.cs" />
     <Compile Include="CsvToDatabase\Implementations\MongoDbRepository.cs" />
+    <Compile Include="CsvToDatabase\Implementations\RecordMongoDbRepository.cs" />
     <Compile Include="CsvToDatabase\Interfaces\IRepository.cs" />
     <Compile Include="Logger\Contexts\LogContext.cs" />
     <Compile Include="Logger\Implementations\BaseLogger.cs" />
@@ -112,10 +116,10 @@
     <Compile Include="CsvEnumerable\Implementations\CsvEnumerableWithHelper.cs" />
     <Compile Include="CsvEnumerable\Implementations\CsvEnumerator.cs" />
     <Compile Include="CsvEnumerable\Implementations\CsvEnumeratorWithHelper.cs" />
-    <Compile Include="CsvEnumerable\Models\Record.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CheckDirectory.cs" />
+    <Compile Include="Utils\Config.cs" />
     <Compile Include="Utils\Disposable.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +128,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="CsvToDatabase\Database\Database initialization.js" />
     <Content Include="Logger\Database\Database initialization.sql" />
   </ItemGroup>
   <ItemGroup />

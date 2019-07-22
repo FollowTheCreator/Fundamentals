@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ITechart.Fundamentals.Common.Interfaces;
+using System.Threading.Tasks;
 
 namespace ITechart.Fundamentals.CsvToDatabase.Interfaces
 {
-    interface IRepository<T> : IDisposable
-        where T : class
+    public interface IRepository<T> where T : IDbEntity
     {
-        IEnumerable<T> GetBookList();
-        T GetBook(int id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(int id);
-        void Save();
+        Task<T> GetByIdAsync(int id);
+
+        Task CreateAsync(T item);
+
+        Task UpdateAsync(T item);
+
+        Task DeleteAsync(int id);
     }
 }
