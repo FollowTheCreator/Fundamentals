@@ -8,7 +8,7 @@ namespace ITechart.Fundamentals.LoggingProxy
     {
         public static void UseLoggingProxy()
         {
-            var logger = new Logger.Implementations.Logger(LogType.Info);
+            var logger = new Logger.Implementations.Logger(LogLevel.Info);
             using (var loggingProxy = new LoggingProxy<IWriter>(logger))
             {
                 var writer = loggingProxy.CreateInstance(new ConsoleWriter());

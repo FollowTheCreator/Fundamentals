@@ -13,10 +13,13 @@ namespace ITechart.Fundamentals.CsvEnumerable
         public static void UseCsvEnumerable()
         {
             string path = Config.CsvFilePath;
-            var data = new CsvEnumerable<Record>(new StreamReader(path))
-                .Select(row => row.ToString());
+            using (var reader = new StreamReader(path))
+            {
+                var data = new CsvEnumerable<Record>(reader)
+                    .Select(row => row.ToString());
 
-            Console.WriteLine(string.Join("\n", data));
+                Console.WriteLine(string.Join("\n", data));
+            }
         }
     }
 }

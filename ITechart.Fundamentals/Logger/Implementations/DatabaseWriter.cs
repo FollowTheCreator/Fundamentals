@@ -5,11 +5,11 @@ using ITechart.Fundamentals.Logger.Models;
 
 namespace ITechart.Fundamentals.Logger.Implementations
 {
-    class DatabaseWriter : BaseLogger, IDisposableLogger
+    class DatabaseWriter : BaseLogger, IDisposableLogWriter
     {
         private readonly LogContext _context;
 
-        public DatabaseWriter(string databaseName, params LogType[] types)
+        public DatabaseWriter(string databaseName, params LogLevel[] types)
             :base(types)
         {
             databaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));

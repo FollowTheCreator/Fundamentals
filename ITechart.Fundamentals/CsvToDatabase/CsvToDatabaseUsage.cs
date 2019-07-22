@@ -23,7 +23,7 @@ namespace ITechart.Fundamentals.CsvToDatabase
             var context = new MongoDbContext(client, Config.DbName);
             await RemoveAllDocuments(context);
 
-            var logger = new Logger.Implementations.Logger(LogType.Info);
+            var logger = new Logger.Implementations.Logger(LogLevel.Info);
             using (var loggingProxy = new LoggingProxy<IRepository<Record>>(logger))
             {
                 var mongoDbRepository = loggingProxy.CreateInstance(new RecordMongoDbRepository(context));

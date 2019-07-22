@@ -1,6 +1,6 @@
 ﻿namespace ITechart.Fundamentals.Logger
 {
-    public enum LogType
+    public enum LogLevel
     {
         Error,
         Warning,

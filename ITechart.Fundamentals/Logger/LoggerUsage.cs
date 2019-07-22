@@ -9,8 +9,8 @@ namespace ITechart.Fundamentals.Logger
         public static void UseLogger()
         {
             using (var logger = new Implementations.Logger(
-                new ConsoleWriter(LogType.Error,
-                                  LogType.Info)
+                new ConsoleWriter(LogLevel.Error,
+                                  LogLevel.Info)
             ))
             {
                 CallMethods(logger);
@@ -19,8 +19,8 @@ namespace ITechart.Fundamentals.Logger
             const string Path = @"Logs\log.txt";
             using (var logger = new Implementations.Logger(
                 new TextFileWriter(Path,
-                                   LogType.Warning,
-                                   LogType.Info)
+                                   LogLevel.Warning,
+                                   LogLevel.Info)
             ))
             {
                 CallMethods(logger);
@@ -29,14 +29,14 @@ namespace ITechart.Fundamentals.Logger
             const string ConnectionName = "Log";
             using (var logger = new Implementations.Logger(
                 new DatabaseWriter(ConnectionName,
-                                   LogType.Error,
-                                   LogType.Info)
+                                   LogLevel.Error,
+                                   LogLevel.Info)
             ))
             {
                 CallMethods(logger);
             }
 
-            using (var logger = new Implementations.Logger( LogType.Error, LogType.Warning ))
+            using (var logger = new Implementations.Logger( LogLevel.Error, LogLevel.Warning ))
             {
                 CallMethods(logger);
             }

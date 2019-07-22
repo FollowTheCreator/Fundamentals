@@ -5,7 +5,7 @@ namespace ITechart.Fundamentals.Utils
 {
     static class CheckDirectory
     {
-        public static void CreateDirectoryIfNOtExists(string path)
+        public static void CreateDirectoryIfNotExists(string path)
         {
             if (path == null)
             {
