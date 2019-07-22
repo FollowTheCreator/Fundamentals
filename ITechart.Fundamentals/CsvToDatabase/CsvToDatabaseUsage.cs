@@ -1,41 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ITechart.Fundamentals.CsvEnumerable.Data;
+using ITechart.Fundamentals.Common.Models;
 using ITechart.Fundamentals.CsvEnumerable.Implementations;
-using ITechart.Fundamentals.CsvEnumerable.Models;
-using MongoDB.Bson;
+using ITechart.Fundamentals.CsvToDatabase.Contexts;
+using ITechart.Fundamentals.CsvToDatabase.Implementations;
+using ITechart.Fundamentals.CsvToDatabase.Interfaces;
+using ITechart.Fundamentals.Logger;
+using ITechart.Fundamentals.LoggingProxy.Implementations;
+using ITechart.Fundamentals.Utils;
 using MongoDB.Driver;
 
 namespace ITechart.Fundamentals.CsvToDatabase
 {
+
     class CsvToDatabaseUsage
     {
-        public static void UseCsvToDatabase()
+        public static async Task UseCsvToDatabaseAsync()
         {
-            string connection = ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString;
-            var client = new MongoClient(connection);
-            var database = client.GetDatabase("TestDB");
-            var collection = database.GetCollection<Record>("Records");
+            var client = new MongoClient(Config.MongoDbConnectionString);
+            var context = new MongoDbContext(client, Config.DbName);
+            await RemoveAllDocuments(context);
 
-            const string path = @"file.csv";
-            CreateCsv.Create(path);
-            var records = new CsvEnumerableWithHelper<Record>(new StreamReader(path));
-            foreach(var record in records)
+            var logger = new Logger.Implementations.Logger(LogType.Info);
+            using (var loggingProxy = new LoggingProxy<IRepository<Record>>(logger))
             {
-                SaveDocs(record, collection).Wait();
-            }
+                var mongoDbRepository = loggingProxy.CreateInstance(new RecordMongoDbRepository(context));
 
-            Console.WriteLine("end");
+                await Task.WhenAll(
+                    new CsvEnumerableWithHelper<Record>(new StreamReader(Config.CsvFilePath))
+                    .Select(async row => await mongoDbRepository.CreateAsync(row))
+                );
+
+                var record = await mongoDbRepository.GetByIdAsync(2);
+
+                record.Name = "Updated name";
+
+                await mongoDbRepository.UpdateAsync(record);
+
+                await mongoDbRepository.DeleteAsync(3);
+            }
         }
 
-        private static async Task SaveDocs(Record record, IMongoCollection<Record> collection)
+        private static async Task RemoveAllDocuments(MongoDbContext context)
         {
-            await collection.InsertOneAsync(record);
+            var mongoDbRepository = new RecordMongoDbRepository(context);
+            await mongoDbRepository.DeleteAll();
         }
     }
 }
