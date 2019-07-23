@@ -29,7 +29,8 @@ namespace ITechart.Fundamentals.LoggingProxy.Implementations
                 throw new ArgumentNullException(nameof(obj));
             }
 
-            return new LoggingProxy<T>(obj, _logger).ActLike<T>();
+            var proxy = new LoggingProxy<T>(obj, _logger);
+            return proxy.ActLike<T>();
         }
 
         protected override void BeforeTryInvokeMember(InvokeMemberBinder binder)

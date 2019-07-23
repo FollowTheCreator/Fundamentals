@@ -5,7 +5,7 @@ namespace ITechart.Fundamentals.Logger.Interfaces
 {
     interface ILogWriter
     {
-        IEnumerable<LogType> LogTypes { get; }
+        IEnumerable<LogLevel> LogTypes { get; }
 
         void WriteLog(LogRecord logRecord);
     }

@@ -6,7 +6,7 @@ namespace ITechart.Fundamentals.Logger.Implementations
 {
     class ConsoleWriter : BaseLogger, ILogWriter
     {
-        public ConsoleWriter(params LogType[] logTypes)
+        public ConsoleWriter(params LogLevel[] logTypes)
             :base(logTypes)
         { }
 

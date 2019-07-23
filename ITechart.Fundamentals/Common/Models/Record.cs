@@ -1,6 +1,8 @@
-﻿namespace ITechart.Fundamentals.CsvEnumerable.Models
+﻿using ITechart.Fundamentals.Common.Interfaces;
+
+namespace ITechart.Fundamentals.Common.Models
 {
-    class Record
+    public class Record : IDbEntity
     {
         public int Id { get; set; }
 

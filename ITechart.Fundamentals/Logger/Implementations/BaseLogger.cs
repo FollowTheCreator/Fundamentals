@@ -7,13 +7,13 @@ namespace ITechart.Fundamentals.Logger.Implementations
 {
     abstract class BaseLogger : Disposable
     {
-        public IEnumerable<LogType> LogTypes { get; private set; }
+        public IEnumerable<LogLevel> LogTypes { get; private set; }
 
-        public BaseLogger(IEnumerable<LogType> logTypes)
+        public BaseLogger(IEnumerable<LogLevel> logTypes)
         {
             if (logTypes == null || !logTypes.Any())
             {
-                LogTypes = new List<LogType> { LogType.Error, LogType.Info, LogType.Warning };
+                LogTypes = new List<LogLevel> { LogLevel.Error, LogLevel.Info, LogLevel.Warning };
             }
             else
             {

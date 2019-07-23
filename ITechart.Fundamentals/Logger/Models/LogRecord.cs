@@ -2,7 +2,7 @@
 {
     class LogRecord
     {
-        public LogType Type { get; set; }
+        public LogLevel Type { get; set; }
 
         public string Message { get; set; }
     }

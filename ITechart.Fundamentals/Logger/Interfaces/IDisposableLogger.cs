@@ -2,7 +2,7 @@
 
 namespace ITechart.Fundamentals.Logger.Interfaces
 {
-    interface IDisposableLogger : IDisposable, ILogWriter
+    interface IDisposableLogWriter : IDisposable, ILogWriter
     {
 
     }

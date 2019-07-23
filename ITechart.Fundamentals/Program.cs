@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ITechart.Fundamentals.CsvEnumerable;
+using ITechart.Fundamentals.CsvToDatabase;
 using ITechart.Fundamentals.Logger;
 using ITechart.Fundamentals.LoggingProxy;
 
@@ -19,6 +20,8 @@ namespace ITechart.Fundamentals
 
             RunSample("Csv Enumerable", CsvEnumerableUsage.UseCsvEnumerable);
 
+            RunSampleAsync("Csv to database", CsvToDatabaseUsage.UseCsvToDatabaseAsync).Wait();
+
             Console.ReadKey();
         }
 
@@ -26,6 +29,13 @@ namespace ITechart.Fundamentals
         {
             Console.WriteLine("--{0}", name);
             action();
+            Console.WriteLine();
+        }
+
+        private static async Task RunSampleAsync(string name, Func<Task> func)
+        {
+            Console.WriteLine("--{0}", name);
+            await func();
             Console.WriteLine();
         }
     }

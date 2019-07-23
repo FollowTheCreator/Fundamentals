@@ -6,15 +6,15 @@ using System.IO;
 
 namespace ITechart.Fundamentals.Logger.Implementations
 {
-    class TextFileWriter : BaseLogger, IDisposableLogger
+    class TextFileWriter : BaseLogger, IDisposableLogWriter
     {
         private readonly StreamWriter _writer;
 
-        public TextFileWriter(string path, params LogType[] types)
+        public TextFileWriter(string path, params LogLevel[] types)
             : base(types)
         {
             path = path ?? throw new ArgumentNullException(nameof(path));
-            CheckDirectory.CreateDirectoryIfNOtExists(path);
+            CheckDirectory.CreateDirectoryIfNotExists(path);
             _writer = new StreamWriter(path, append: true);
         }
 

@@ -9,7 +9,7 @@ namespace ITechart.Fundamentals.Logger.Implementations
     {
         private readonly ILogWriter _destination;
 
-        public Logger(params LogType[] logTypes)
+        public Logger(params LogLevel[] logTypes)
         {
             if (logTypes == null)
             {
@@ -26,27 +26,27 @@ namespace ITechart.Fundamentals.Logger.Implementations
 
         public void Error(string message)
         {
-            _destination.WriteLog(new LogRecord() { Type = LogType.Error, Message = message });
+            _destination.WriteLog(new LogRecord() { Type = LogLevel.Error, Message = message });
         }
 
         public void Error(Exception ex)
         {
-            _destination.WriteLog(new LogRecord() { Type = LogType.Error, Message = ex.Message });
+            _destination.WriteLog(new LogRecord() { Type = LogLevel.Error, Message = ex.Message });
         }
 
         public void Warning(string message)
         {
-            _destination.WriteLog(new LogRecord() { Type = LogType.Warning, Message = message });
+            _destination.WriteLog(new LogRecord() { Type = LogLevel.Warning, Message = message });
         }
 
         public void Info(string message)
         {
-            _destination.WriteLog(new LogRecord() { Type = LogType.Info, Message = message });
+            _destination.WriteLog(new LogRecord() { Type = LogLevel.Info, Message = message });
         }
 
         protected override void FreeResources()
         {
-            (_destination as IDisposableLogger)?.Dispose();
+            (_destination as IDisposableLogWriter)?.Dispose();
         }
     }
 }
