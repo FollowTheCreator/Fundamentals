@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ITechart.Fundamentals.CsvEnumerable;
 using ITechart.Fundamentals.Logger;
 using ITechart.Fundamentals.LoggingProxy;
 
@@ -11,6 +16,8 @@ namespace ITechart.Fundamentals
             RunSample("Logger", LoggerUsage.UseLogger);
 
             RunSample("Logging proxy", LoggingProxyUsage.UseLoggingProxy);
+
+            RunSample("Csv Enumerable", CsvEnumerableUsage.UseCsvEnumerable);
 
             Console.ReadKey();
         }
